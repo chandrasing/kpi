@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: gateway-service
+
+server:
+  port: ${PORT:8080}
+zuul:
+  prefix: /api
+  routes:
+    product-command:
+      path: /consumer-command/**
+      serviceId: command-service
+    product-query:
+      path: /consumer-query/**
+      serviceId: query-service
+    account-command:
+      path: /commands-command/**
+      serviceId: command-service
+    account-query:
+      path: /commands-query/**
+      serviceId: query-service

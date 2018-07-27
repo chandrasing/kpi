@@ -1,0 +1,13 @@
+include ':common'
+include ':command-service'
+include ':config-service'
+include ':discovery-service'
+include ':gateway-service'
+include ':query-service'
+
+project(':common').projectDir = "$rootDir/common" as File
+project(':command-service').projectDir = "$rootDir/command-service" as File
+project(':config-service').projectDir = "$rootDir/config-service" as File
+project(':discovery-service').projectDir = "$rootDir/discovery-service" as File
+project(':gateway-service').projectDir = "$rootDir/gateway-service" as File
+project(':query-service').projectDir = "$rootDir/query-service" as File
