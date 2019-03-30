@@ -11,8 +11,6 @@ buildscript {
 }
 
 allprojects {
-    apply plugin: 'maven'
-
     group = 'org.example'
     version = '0.0.1-SNAPSHOT'
 }
@@ -22,13 +20,25 @@ subprojects {
         springCloudVersion = 'Finchley.RELEASE'
     }
 
+    apply plugin: 'maven'
     apply plugin: 'java'
     apply plugin: 'idea'
-    apply plugin: 'org.springframework.boot'
-    apply plugin: 'io.spring.dependency-management'
 
-    if (project.name != 'common')
+    if (project.name != 'common') {
+        apply plugin: 'org.springframework.boot'
+        apply plugin: 'io.spring.dependency-management'
         apply from: rootDir.getPath() + '/gradle/docker.gradle'
+
+        dependencies {
+            testCompile('org.springframework.boot:spring-boot-starter-test')
+        }
+
+        dependencyManagement {
+            imports {
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            }
+        }
+    }
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -40,15 +50,5 @@ subprojects {
     repositories {
         jcenter()
         maven { url "http://repo.maven.apache.org/maven2" }
-    }
-
-    dependencies {
-        testCompile('org.springframework.boot:spring-boot-starter-test')
-    }
-
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-        }
     }
 }
